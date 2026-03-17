@@ -1,0 +1,39 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: cleanArchitecture
+
+  datasource:
+    url: jdbc:mysql://pdv-project-project-springboot.a.aivencloud.com:26592/defaultdb?useSSL=true&requireSSL=true&serverTimezone=UTC
+    username: avnadmin
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gianmarcoing58@gmail.com
+    password: lqyh cnwf jqyt vute
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  refresh:
+    key: ${JWT_REFRESH_KEY:404E235266556A586E3272657538782F41204428472B410250645367586B5970}
