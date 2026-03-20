@@ -25,21 +25,24 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // habilita @PreAuthorize en controllers
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final JwtAuthEntryPoint authEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final RateLimitFilter rateLimitFilter;
 
     public SecurityConfig(
         JwtAuthFilter jwtAuthFilter,
         JwtAuthEntryPoint authEntryPoint,
-        JwtAccessDeniedHandler accessDeniedHandler
+        JwtAccessDeniedHandler accessDeniedHandler,
+        RateLimitFilter rateLimitFilter
     ) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.authEntryPoint = authEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
+        this.rateLimitFilter = rateLimitFilter;
     }
 
     @Bean
@@ -79,6 +82,7 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated()
             )
+            .addFilterBefore(rateLimitFilter, JwtAuthFilter.class)
             .addFilterBefore(
                 jwtAuthFilter,
                 UsernamePasswordAuthenticationFilter.class

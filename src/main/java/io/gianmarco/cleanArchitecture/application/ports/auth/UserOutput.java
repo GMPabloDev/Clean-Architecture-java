@@ -1,9 +1,12 @@
 package io.gianmarco.cleanArchitecture.application.ports.auth;
 
+import java.util.UUID;
+
 public record UserOutput(
-    Long id,
+    UUID id,
     String name,
     String email,
-    String password) {
+    boolean emailVerified,
+    boolean disabled) {
 
 }
