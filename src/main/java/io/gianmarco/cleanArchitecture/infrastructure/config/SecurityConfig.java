@@ -61,19 +61,23 @@ public class SecurityConfig {
                     // Rutas públicas de auth
                     .requestMatchers(HttpMethod.POST, "/api/v1/auth/register")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/verify")
-                    .permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/auth/login")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/verify-email")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/forgot-password")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/reset-password")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/resend-otp")
                     .permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh")
                     .permitAll()
-                    // Rutas PRIVADAS de auth (requieren token válido)
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/v1/auth/reset-password"
-                    )
+                    .requestMatchers(HttpMethod.POST, "/api/v1/payments/webhook")
+                    .permitAll()
+                    // Rutas PRIVADAS (requieren token)
+                    .requestMatchers(HttpMethod.GET, "/api/v1/auth/me")
                     .authenticated()
-                    // Agrega aquí más rutas privadas de auth según las necesites
 
                     // Todo lo demás requiere autenticación
                     .anyRequest()

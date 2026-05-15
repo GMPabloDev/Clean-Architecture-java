@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:mysql://pdv-project-project-springboot.a.aivencloud.com:26592/defaultdb?useSSL=true&requireSSL=true&serverTimezone=UTC
     username: avnadmin
-    password: ${DB_PASSWORD}
+    password: ${AIVEN_PASSWORD:changeme}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -37,3 +37,9 @@ jwt:
     key: ${JWT_SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
   refresh:
     key: ${JWT_REFRESH_KEY:404E235266556A586E3272657538782F41204428472B410250645367586B5970}
+
+
+stripe:
+  api-key: ${STRIPE_API_KEY:sk_test_placeholder}
+  success-url: http://localhost:8082/api/payments/success
+  cancel-url: http://localhost:8082/api/payments/cancel

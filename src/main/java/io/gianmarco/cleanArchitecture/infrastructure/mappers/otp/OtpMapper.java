@@ -27,6 +27,7 @@ public class OtpMapper {
             entity.getOtp(),
             mapToDomainType(entity.getType()),
             entity.getAttempts(),
+            entity.getCreatedAt(),
             entity.getExpiresAt()
         );
     }

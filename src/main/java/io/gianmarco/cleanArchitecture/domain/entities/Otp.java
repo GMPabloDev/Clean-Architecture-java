@@ -11,6 +11,7 @@ public class Otp {
     private String otpHash;
     private OtpType type;
     private int attempts;
+    private Instant createdAt;
     private Instant expiresAt;
 
     private Otp() {}
@@ -28,6 +29,7 @@ public class Otp {
         otp.otpHash = otpHash;
         otp.type = type;
         otp.expiresAt = expiresAt;
+        otp.createdAt = Instant.now();
         otp.attempts = 0;
         return otp;
     }
@@ -39,6 +41,7 @@ public class Otp {
         String otpHash,
         OtpType type,
         int attempts,
+        Instant createdAt,
         Instant expiresAt
     ) {
         Otp otp = new Otp();
@@ -48,6 +51,7 @@ public class Otp {
         otp.otpHash = otpHash;
         otp.type = type;
         otp.attempts = attempts;
+        otp.createdAt = createdAt;
         otp.expiresAt = expiresAt;
         return otp;
     }
@@ -58,6 +62,26 @@ public class Otp {
 
     public void increaseAttempts() {
         this.attempts++;
+    }
+
+    public boolean verify(String hashedInput) {
+        return this.otpHash.equals(hashedInput);
+    }
+
+    public int attemptsLeft(int maxAttempts) {
+        return maxAttempts - this.attempts;
+    }
+
+    public boolean isInCooldown(long cooldownMinutes) {
+        return createdAt != null &&
+            Instant.now().isBefore(createdAt.plusSeconds(cooldownMinutes * 60));
+    }
+
+    public long secondsUntilCooldownEnds(long cooldownMinutes) {
+        if (createdAt == null) return 0;
+        Instant cooldownEnd = createdAt.plusSeconds(cooldownMinutes * 60);
+        long secondsLeft = java.time.Duration.between(Instant.now(), cooldownEnd).getSeconds();
+        return Math.max(0, secondsLeft);
     }
 
     public UUID getId() {
